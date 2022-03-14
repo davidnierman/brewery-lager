@@ -51,10 +51,12 @@ An Express Based App that Leverages Mongoose and OpenBrewery API to Look Up and 
  - View a Brewery's details 
  - Edit a Brewery on Bucket List
  - Add Beers with tasting notes to Brewery
- - View all Beers 
  - View a Beer's details
 
 ## Stretch Goals
+- View all Beers
+    - Create Beers without Brewery Visit 
+
  - Add statistics on breweries
      - Top Rated Breweries
      - Most Frequented Breweries
