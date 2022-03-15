@@ -1,0 +1,30 @@
+{% layout 'layout.liquid'%}
+{% block content %}
+<div>
+    <h2 class="display-6">Bucketlist Breweries</h2>
+    <div class="row">
+        {% for brewery in breweries %}
+        <div class="card" style="width: 18rem;">
+            <h5 class="card-header">Visited Breweries</h5>
+            <div class="card-body">
+                <h5 class="card-title">
+                    open_brewery_db_id: {{ brewery.open_brewery_db_id}}
+                </h5>
+                <p class="card-text">
+                    Visited: {{ brewery.visited }}
+                </p>
+                <p class="card-text">
+                    owner: {{ brewery.owner }}
+                </p>
+                <!-- <p class="card-text">
+                    Amount: {{ example.amount }} -->
+                </p>
+                <a href="/brewery/{{ brewery.id }}" class="btn btn-info">
+                    View Brewery: #{{ brewery.id }}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
