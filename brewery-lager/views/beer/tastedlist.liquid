@@ -1,0 +1,39 @@
+{% layout 'layout.liquid'%}
+{% block content %}
+<div>
+    <h2 class="display-6">Tasted Beers</h2>
+    <div class="row">
+        {% for beer in beers %}
+        <div class="card" style="width: 18rem;">
+            <h5 class="card-header">Visited Breweries</h5>
+            <div class="card-body">
+                <h5 class="card-title">
+                    Name: {{ beer.name }}
+                </h5>
+                <p class="card-text">
+                    Type/Style: {{ beer.type }}
+                </p>
+                <p class="card-text">
+                    Tasting Notes: {{ beer.tasting_notes }}
+                </p>
+                <p class="card-text">
+                    Date Tasted: {{ beer.date_tasted}}
+                </p>
+                <p class="card-text">
+                    brewery: {{beer.brewery }}
+                </p>
+                <p class="card-text">
+                    owner Id: {{ beer.owner }}
+                </p>
+                <!-- <p class="card-text">
+                    Amount: {{ example.amount }} -->
+                </p>
+                <a href="/beer/{{ beer.id }}" class="btn btn-info">
+                    View Beer: #{{ beer.id }}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,7 @@
 // Import Dependencies
 const express = require('express')
 const Brewery = require('../models/brewery')
+const Beer = require('../models/beer')
 
 // Create router
 const router = express.Router()
@@ -22,27 +23,30 @@ router.use((req, res, next) => {
 // Routes
 
 // index ALL
-router.get('/', (req, res) => {
-	Example.find({})
-		.then(examples => {
-			const username = req.session.username
-			const loggedIn = req.session.loggedIn
+// router.get('/', (req, res) => {
+// 	Example.find({})
+// 		.then(examples => {
+// 			const username = req.session.username
+// 			const loggedIn = req.session.loggedIn
 			
-			res.render('examples/index', { examples, username, loggedIn })
-		})
-		.catch(error => {
-			res.redirect(`/error?error=${error}`)
-		})
-})
+// 			res.render('examples/index', { examples, username, loggedIn })
+// 		})
+// 		.catch(error => {
+// 			res.redirect(`/error?error=${error}`)
+// 		})
+// })
 
-// index that shows only the user's examples
-router.get('/mine', (req, res) => {
+// index that shows only the user's beers
+router.get('/tastedlist', (req, res) => {
     // destructure user info from req.session
     const { username, userId, loggedIn } = req.session
-	Example.find({ owner: userId })
-		.then(examples => {
-			res.render('examples/index', { examples, username, loggedIn })
-		})
+	Beer.find({ owner: userId })
+		.then(beers => {
+					res.render('beer/tastedlist', { beers, username, loggedIn })
+				})
+				.catch(error => {
+					res.redirect(`/error?error=${error}`)
+				})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
 		})

@@ -54,7 +54,6 @@ router.get('/visitedlist', (req, res) => {
     const { username, userId, loggedIn } = req.session
 	Brewery.find({ $and: [{owner: userId}, {visited:true}]})
 		.then(breweries => {
-			console.log('VISITED BREWERIES', breweries)
 			res.render('brewery/visitedlist', {breweries, username, loggedIn })
 		})
 		.catch(error => {

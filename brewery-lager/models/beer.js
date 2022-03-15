@@ -12,8 +12,8 @@ const { Schema, model } = mongoose
 
 const beerSchema = new Schema(
 	{
-		beer_name: { type: String, required: true },
-		beer_type: { type: String, required: true },
+		name: { type: String, required: true },
+		type: { type: String, required: true },
 		tasting_notes: { type: String, required: true },
 		date_tasted: { type: Date, required: true },
         brewery: { 
