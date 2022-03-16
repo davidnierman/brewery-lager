@@ -1,43 +1,49 @@
 {% layout 'layout.liquid' %}
 {% block content %}
 <div class="container-sm">
-    <form action="/examples" method="POST">
+    <form action="/beer/edit/?_method=PUT" method="POST">
         <fieldset>
-            <legend>Create New Example</legend>
-            <label class="form-label">Title: </label>
+            <legend>Create New Beer Tasting for {{brewery.id}}</legend>
+            <label class="form-label">Beer Name: </label>
             <input 
                 type="text" 
-                name="title" 
-                placeholder="{{ example.title }}"
-                value="{{ example.title }}"
+                name="name" 
+                value={{beer.name}}
                 class="form-control"
             >
-            <label class="form-label">Body:</label>
+            <label class="form-label">Type/Style:</label>
             <input 
                 type="text" 
-                name="body" 
-                placeholder="{{ example.body }}" 
-                value="{{ example.body }}" 
+                name="type" 
+                value="{{beer.type}}"
                 class="form-control"
             >
-            <label class="form-label">Amount:</label>
+            <label class="form-label">Tasting Notes:</label>
             <input 
-                type="number" 
-                name="amount"
-                value="{{ example.amount }}"
+                type="text" 
+                value={{beer.tasting_notes}} 
                 class="form-control"
             >
-            <label class="form-label">Ready:</label>
+            <label class="form-label">Date Tasted:</label>
             <input 
-                type="checkbox" 
-                name="ready" 
-                class="form-check-input"
-                {% if example.ready %}
-                    checked
-                {% endif %}
+                type="date"
+                value={{date_tasted}} 
+                class="form-check-date"
+            >
+            <!-- Add brewery to link beer to brewery -->
+            <input 
+                type="hidden"  
+                name="brewery" 
+                value={{brewery.id}}
+            >
+            <!-- Add user to link beer to user -->
+            <input 
+                type="hidden" 
+                name="owner"
+                value={{userId}}
             >
         </fieldset>
-        <input type="submit" value="Edit Example" class="btn btn-success">
+        <input type="submit" value="Submit Edits" class="btn btn-success">
     </form>
 </div>
 {% endblock %}

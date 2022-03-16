@@ -27,7 +27,7 @@
               </tr>
               <tr>
                 <th scope="row">Date Tasted</th>
-                <td> {{beer.date_tasted}}</td>
+                <td> {{formattedDate}}</td>
 
               </tr>
                 <th scope="row">Brewery</th>
@@ -38,7 +38,7 @@
 
         <!-- EDIT BEER FORM -->
         <div class="btn-group">
-            <a href="/examples/{{ example.id }}/edit" class="btn btn-primary">Edit</a>
+            <a href="/beer/{{beer.id }}/edit" class="btn btn-primary">Edit</a>
             <form action="/examples/{{ example.id }}?_method=DELETE" method="POST">
                 <input type="submit" value="Delete" class="btn btn-danger">
             </form>

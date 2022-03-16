@@ -3,6 +3,11 @@ const express = require('express')
 const Brewery = require('../models/brewery')
 const Beer = require('../models/beer')
 
+// Moments helps convert dates into correct format
+// (Mongoose iso date format is extensive and not always needed)
+
+const moment = require('moment')
+
 // Create router
 const router = express.Router()
 
@@ -59,26 +64,31 @@ router.get('/:breweryid/create', (req, res) => {
 	})
 
 // CREATE BEER TASTING - ACTION (creates a beer tasting record)
-router.post('/:breweryid/create', (req, res) => {
+router.post('/create', (req, res) => {
 	const newBeer = req.body
 	console.log(newBeer)
 	Beer.create(newBeer)
 		.then(beer => {
 			console.log('this was returned from create beer', beer)
-			res.send(beer)
+			//res.send(beer)
+			const beerId = beer.id
+			console.log(beer.id)
+			res.redirect(`./${beerId}`)
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
 		})
 })
 
-// edit route -> GET that takes us to the edit form view
+// EDIT BEER TASTING - FORM (renders the form needed to submit edits to a beer tasting record)
 router.get('/:id/edit', (req, res) => {
-	// we need to get the id
-	const exampleId = req.params.id
-	Example.findById(exampleId)
-		.then(example => {
-			res.render('examples/edit', { example })
+	const { username, userId, loggedIn } = req.session
+	const beerId = req.params.id
+	Beer.findById(beerId)
+		.then(beer => {
+			// this converts mongoose date format to correct date format for form
+			const date_tasted = beer.date_tasted.toISOString().substring(0,10);
+			res.render('beer/edit', { beer, date_tasted, username, userId, loggedIn })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
@@ -106,7 +116,8 @@ router.get('/:beerid', (req, res) => {
 	Beer.findById(beerId)
 		.populate('brewery')
 		.then(beer => {
-			res.render('beer/showDetails', { beer, username, loggedIn, userId })
+			const formattedDate = moment(beer.date_tasted).format("MMM Do, YYYY")
+			res.render('beer/showDetails', { beer, formattedDate, username, loggedIn, userId })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
