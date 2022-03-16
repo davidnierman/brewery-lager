@@ -1,0 +1,48 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+<div class="container-md">
+    <article>
+        <h2>
+            {{beer.name}} -
+        </h2>
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Beer Tasting Record</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Name</th>
+                <td> {{beer.name}} </td>
+              </tr>
+              <tr>
+                <th scope="row">Type</th>
+                <td> {{beer.type}} </td>
+              </tr>
+              <tr>
+                <th scope="row">Tasting Notes</th>
+                <td> {{beer.tasting_notes}} </td>
+              </tr>
+              <tr>
+                <th scope="row">Date Tasted</th>
+                <td> {{beer.date_tasted}}</td>
+
+              </tr>
+                <th scope="row">Brewery</th>
+                <td> {{beer.brewery}}</td>
+              </tr>
+            </tbody>
+          </table>        
+
+        <!-- EDIT BEER FORM -->
+        <div class="btn-group">
+            <a href="/examples/{{ example.id }}/edit" class="btn btn-primary">Edit</a>
+            <form action="/examples/{{ example.id }}?_method=DELETE" method="POST">
+                <input type="submit" value="Delete" class="btn btn-danger">
+            </form>
+        </div>
+    </article>
+</div>
+{% endblock %}

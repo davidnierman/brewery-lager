@@ -46,7 +46,7 @@ router.get('/tastedlist', (req, res) => {
 				})
 })
 
-// CREATE BEER TASTING - FORM (create a beer tasting)
+// CREATE BEER TASTING - FORM (renders the form needed to submit a new beer tasting)
 router.get('/:breweryid/create-beer-tasting', (req, res) => {
 	const { username, userId, loggedIn } = req.session
 	const breweryId = req.params.breweryid
@@ -60,7 +60,7 @@ router.get('/:breweryid/create-beer-tasting', (req, res) => {
 		})
 	})
 
-// create -> POST route that actually calls the db and makes a new document
+// CREATE BEER TASTING - ACTION (creates a beer tasting record)
 router.post('/:breweryid/create-beer-tasting', (req, res) => {
 	const newBeer = req.body
 	console.log(newBeer)
@@ -102,12 +102,12 @@ router.put('/:id', (req, res) => {
 })
 
 // show route
-router.get('/:id', (req, res) => {
-	const exampleId = req.params.id
-	Example.findById(exampleId)
-		.then(example => {
+router.get('/:beerid', (req, res) => {
+	const beerId = req.params.beerid
+	Beer.findById(beerId)
+		.then(beer => {
             const {username, loggedIn, userId} = req.session
-			res.render('examples/show', { example, username, loggedIn, userId })
+			res.render('beer/showBeerDetails', { beer, username, loggedIn, userId })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
