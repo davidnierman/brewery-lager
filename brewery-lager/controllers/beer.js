@@ -40,16 +40,26 @@ router.use((req, res, next) => {
 router.get('/tastedlist', (req, res) => {
     // destructure user info from req.session
     const { username, userId, loggedIn } = req.session
+	const beersWithBreweryPop = []
 	Beer.find({ owner: userId })
-		.then(beers => {
-					res.render('beer/tastedlist', { beers, username, loggedIn })
+		.then(beers =>{
+			//console.log(beers)
+			for (i in beers){
+				let beer = beers[i]
+				let beerId = beer.id
+				Beer.findById(beer.id)
+				.populate('brewery')
+				.exec(function (err, beer) {
+					if (err) return handleError(err)
+					beersWithBreweryPop.pusharray (beer)
+					console.log(beer)
 				})
-				.catch(error => {
-					res.redirect(`/error?error=${error}`)
-				})
+			}
+			res.render('beer/tastedlist', { beersWithBreweryPop, username, loggedIn })
+		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
-		})
+				})
 })
 
 // new route -> GET route that renders our page with the form

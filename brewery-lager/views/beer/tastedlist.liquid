@@ -3,7 +3,7 @@
 <div>
     <h2 class="display-6">Tasted Beers</h2>
     <div class="row">
-        {% for beer in beers %}
+        {% for beer in beersWithBreweryPop %}
         <div class="card" style="width: 18rem;">
             <h5 class="card-header">Visited Breweries</h5>
             <div class="card-body">
@@ -20,7 +20,7 @@
                     Date Tasted: {{ beer.date_tasted}}
                 </p>
                 <p class="card-text">
-                    brewery: {{beer.brewery }}
+                    brewery: {{beer.brewery.open_brewery_db_id }}
                 </p>
                 <p class="card-text">
                     owner Id: {{ beer.owner }}

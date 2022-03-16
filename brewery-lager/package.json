@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "seed": "node models/seed.js"
+    "seedBeers": "node models/seedBeers.js",
+    "seedBreweries": "node models/seedBreweries.js"
   },
   "keywords": [],
   "author": "David Nierman",

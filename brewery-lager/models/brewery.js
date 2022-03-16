@@ -14,10 +14,6 @@ const brewerySchema = new Schema(
 	{
 		open_brewery_db_id: { type: Number, required: true },
 		visited: { type: Boolean, required: true },
-        beers_tasted:[{
-            type: Schema.Types.ObjectID,
-			ref: 'Beer',
-        }],
 		owner: {
 			type: Schema.Types.ObjectID,
 			ref: 'User',
