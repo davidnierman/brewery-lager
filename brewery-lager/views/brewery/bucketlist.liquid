@@ -20,11 +20,14 @@
                     Amount: {{ example.amount }} -->
                 </p>
                 <a href="/brewery/{{ brewery.id }}" class="btn btn-info">
-                    View Brewery: #{{ brewery.id }}
+                    View Brewery: #{{brewery.id}}
                 </a>
             </div>
         </div>
         {% endfor %}
+        <a href="/brewery/search">
+            Search for Brewery to add to bucketlet
+        </a>
     </div>
 </div>
 {% endblock %}

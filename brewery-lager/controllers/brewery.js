@@ -20,24 +20,11 @@ router.use((req, res, next) => {
 		res.redirect('/auth/login')
 	}
 })
-
+/////////////////////////////////////
 // Routes
+//////////////////////////////////////
 
-// index ALL
-// router.get('/', (req, res) => {
-// 	Example.find({})
-// 		.then(examples => {
-// 			const username = req.session.username
-// 			const loggedIn = req.session.loggedIn
-			
-// 			res.render('brewery/index', { username, loggedIn })
-// 		})
-// 		.catch(error => {
-// 			res.redirect(`/error?error=${error}`)
-// 		})
-// })
-
-// index that shows only the user's breweries
+// INDEX/LIST BUCKETLIST(shows only the user's breweries) - DONE FOR NOW
 router.get('/bucketlist', (req, res) => {
     // destructure user info from req.session
     const { username, userId, loggedIn } = req.session
@@ -49,9 +36,8 @@ router.get('/bucketlist', (req, res) => {
 			res.redirect(`/error?error=${error}`)
 		})
 })
-// index that shows only the user's breweries
+// INDEX/LIST VISITEDLIST (shows only the user's breweries) - DONE FOR NOW
 router.get('/visitedlist', (req, res) => {
-    // destructure user info from req.session
     const { username, userId, loggedIn } = req.session
 	Brewery.find({ $and: [{owner: userId}, {visited:true}]})
 		.then(breweries => {
@@ -62,10 +48,20 @@ router.get('/visitedlist', (req, res) => {
 		})
 })
 
-// new route -> GET route that renders our page with the form
-router.get('/addBrewery', (req, res) => {
+// SEARCH FORM FOR BREWERY  (Allows a user to seach for a brewery and then add it to bucketlist)
+router.get('/search', (req, res) => {
 	const { username, userId, loggedIn } = req.session
-	res.render('brewery/addBrewery', { username, loggedIn })
+	res.render('brewery/search', { username, loggedIn })
+})
+
+// SEARCH RESULTS
+router.post('/searchResults', async (req, res) => {
+	const { username, userId, loggedIn } = req.session // IS THIS NEEDED ON ALL TO PASS THE SESSION INFO TO LAYOUT???????
+	const searchMethod = req.body.searchMethod
+	const input = req.body.input
+	const searchResults = await fetchBreweryData(searchMethod, input)
+		console.log('Search Results', searchResults) // this is returning empty
+		res.send(searchResults)
 })
 
 // create -> POST route that actually calls the db and makes a new document
@@ -112,11 +108,11 @@ router.put('/:id', (req, res) => {
 
 // show route
 router.get('/:id', (req, res) => {
-	const exampleId = req.params.id
-	Example.findById(exampleId)
-		.then(example => {
+	const breweryId = req.params.id
+	Brewery.findById(breweryId)
+		.then(brewery => {
             const {username, loggedIn, userId} = req.session
-			res.render('examples/show', { example, username, loggedIn, userId })
+			res.render('brewery/showBrewery', { brewery, username, loggedIn, userId })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)

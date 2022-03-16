@@ -1,0 +1,29 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+<div class="container-sm">
+    <form id = "searchBrewery" action="./searchResults" method="POST">   ERROR HERE
+        <fieldset>
+            <legend>Search for a Brewery</legend>
+            <br>
+            <!-- BreweryDbQueryParams = ['by_city', 'by_name', 'by_state', 'by_postal', 'by_type'] -->
+            <label class="form-label">Search Method</label>
+            <select name="searchMethod" form="searchBrewery" class="form-select" aria-label="Default select example">
+                <option selected>Search Method</option>
+                <option value="by_city">City</option>
+                <option value="by_name">Name</option>
+                <option value="by_state">State</option>
+                <option value="by_postal">Postal Code</option>
+              </select>
+              <br>
+            <label class="form-label">Search:</label>
+            <input 
+                type="text" 
+                name="input" 
+                placeholder="Depending on search method above:  San Diego,  Ballast Point,  California,  92104" 
+                class="form-control"
+            >
+        </fieldset>
+        <input type="submit" value="Search for Brewery" class="btn btn-success">
+    </form>
+</div>
+{% endblock %}

@@ -20,22 +20,6 @@ router.use((req, res, next) => {
 	}
 })
 
-// Routes
-
-// index ALL
-// router.get('/', (req, res) => {
-// 	Example.find({})
-// 		.then(examples => {
-// 			const username = req.session.username
-// 			const loggedIn = req.session.loggedIn
-			
-// 			res.render('examples/index', { examples, username, loggedIn })
-// 		})
-// 		.catch(error => {
-// 			res.redirect(`/error?error=${error}`)
-// 		})
-// })
-
 // index that shows only the user's beers
 router.get('/tastedlist', (req, res) => {
     // destructure user info from req.session
@@ -62,11 +46,19 @@ router.get('/tastedlist', (req, res) => {
 				})
 })
 
-// new route -> GET route that renders our page with the form
-router.get('/new', (req, res) => {
+// CREATE BEER TASTING FORM (create a beer tasting)
+router.get('/:breweryid/createBeerTasting', (req, res) => {
 	const { username, userId, loggedIn } = req.session
-	res.render('examples/new', { username, loggedIn })
-})
+	const breweryId = req.params.breweryid
+	Brewery.findById(breweryId)
+		.then(brewery => {
+			console.log('found brewery object to add to beer tasting', brewery)
+			res.render('beer/createBeerTasting', {brewery, username, loggedIn })
+		})
+		.catch(error=>{
+			console.log('error fetching brewering', error)
+		})
+	})
 
 // create -> POST route that actually calls the db and makes a new document
 router.post('/', (req, res) => {

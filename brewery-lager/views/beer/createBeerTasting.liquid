@@ -1,0 +1,43 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+<div class="container-sm">
+    <form action="/examples" method="POST">
+        <fieldset>
+            <legend>Create New Beer Tasting for {{brewery.id}}</legend>
+            <label class="form-label">Beer Name: </label>
+            <input 
+                type="text" 
+                name="name" 
+                placeholder="Sculpin"
+                class="form-control"
+            >
+            <label class="form-label">Type/Style:</label>
+            <input 
+                type="text" 
+                name="type" 
+                placeholder="IPA" 
+                class="form-control"
+            >
+            <label class="form-label">Tasting Notes:</label>
+            <input 
+                type="text" 
+                name="tasting_notes" 
+                class="form-control"
+            >
+            <label class="form-label">Date Tasted:</label>
+            <input 
+                type="date"
+                name="date_tasted" 
+                class="form-check-date"
+            >
+            <input 
+                type="hidden" 
+                name="brewery" 
+                class="form-check-input"
+                value={{brewery.id}}
+            >
+        </fieldset>
+        <input type="submit" value="Create New Example" class="btn btn-success">
+    </form>
+</div>
+{% endblock %}
