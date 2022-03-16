@@ -5,7 +5,6 @@ const Beer = require('../models/beer')
 
 // Moments helps convert dates into correct format
 // (Mongoose iso date format is extensive and not always needed)
-
 const moment = require('moment')
 
 // Create router
@@ -55,7 +54,6 @@ router.get('/:breweryid/create', (req, res) => {
 	const breweryId = req.params.breweryid
 	Brewery.findById(breweryId)
 		.then(brewery => {
-			console.log('found brewery object to add to beer tasting', brewery)
 			res.render('beer/create', {brewery,userId, username, loggedIn })
 		})
 		.catch(error=>{
@@ -69,10 +67,6 @@ router.post('/create', (req, res) => {
 	console.log(newBeer)
 	Beer.create(newBeer)
 		.then(beer => {
-			console.log('this was returned from create beer', beer)
-			//res.send(beer)
-			const beerId = beer.id
-			console.log(beer.id)
 			res.redirect(`./${beerId}`)
 		})
 		.catch(error => {
@@ -116,8 +110,8 @@ router.get('/:beerid', (req, res) => {
 	Beer.findById(beerId)
 		.populate('brewery')
 		.then(beer => {
-			const formattedDate = moment(beer.date_tasted).format("MMM Do, YYYY")
-			res.render('beer/showDetails', { beer, formattedDate, username, loggedIn, userId })
+			beer.date_tasted = moment(beer.date_tasted).format("MMM Do, YYYY")
+			res.render('beer/showDetails', { beer, username, loggedIn, userId })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)

@@ -17,10 +17,31 @@
         </div>
     </article>
 </div>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Tasting Notes</th>
+        <th scope="col">Date Tasted</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for beer in beers%}
+            <tr>
+                <th scope="row">{{beer.name}}</th>
+                <td> {{beer.name}} </td>
+                <td> {{beer.type}} </td>
+                <td> {{beer.tasting_notes}} </td>
+                <td> {{beer.date_tasted}} </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>  
 
 <!-- I will need to pass the value of the brewery ID to this form -->
 <a href="/beer/{{brewery.id}}/create">
-    <h3> Add New Beer Tasting</h3>
+    <h3> Add New Beer Tasted</h3>
 </a>
 
 {% endblock %}

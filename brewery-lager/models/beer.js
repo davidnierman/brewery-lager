@@ -15,7 +15,7 @@ const beerSchema = new Schema(
 		name: { type: String, required: true },
 		type: { type: String, required: true },
 		tasting_notes: { type: String, required: true },
-		date_tasted: { type: Date, required: true },
+		date_tasted: { type: mongoose.Mixed, required: true },
         brewery: { 
             type: Schema.Types.ObjectID,
             ref:'Brewery'

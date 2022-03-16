@@ -4,6 +4,11 @@ const Brewery = require('../models/brewery')
 const Beer = require('../models/beer')
 const fetchBreweryData = require('../utils/fetchApi')
 
+
+// Moments helps convert dates into correct format
+// (Mongoose iso date format is extensive and not always needed)
+const moment = require('moment')
+
 // Create router
 const router = express.Router()
 
@@ -24,7 +29,7 @@ router.use((req, res, next) => {
 // Routes
 //////////////////////////////////////
 
-// INDEX/LIST BUCKETLIST(shows only the user's breweries) - DONE FOR NOW
+// INDEX/LIST BUCKETLIST (shows only the user's breweries) - DONE FOR NOW
 router.get('/bucketlist', (req, res) => {
     // destructure user info from req.session
     const { username, userId, loggedIn } = req.session
@@ -48,13 +53,13 @@ router.get('/visitedlist', (req, res) => {
 		})
 })
 
-// SEARCH FORM FOR BREWERY  (Allows a user to seach for a brewery and then add it to bucketlist)
+// SEARCH FORM FOR BREWERY (Allows a user to seach for a brewery and then add it to bucketlist)
 router.get('/search', (req, res) => {
 	const { username, userId, loggedIn } = req.session
 	res.render('brewery/search', { username, loggedIn })
 })
 
-// SEARCH RESULTS
+// SEARCH RESULTS <-- THERE IS A BUG HERE
 router.post('/searchResults', async (req, res) => {
 	const { username, userId, loggedIn } = req.session // IS THIS NEEDED ON ALL TO PASS THE SESSION INFO TO LAYOUT???????
 	const searchMethod = req.body.searchMethod
@@ -110,9 +115,20 @@ router.put('/:id', (req, res) => {
 router.get('/:id', (req, res) => {
 	const breweryId = req.params.id
 	Brewery.findById(breweryId)
-		.then(brewery => {
+		.then(returnedBrewery => {
             const {username, loggedIn, userId} = req.session
-			res.render('brewery/showBrewery', { brewery, username, loggedIn, userId })
+			const brewery = returnedBrewery
+			Beer.find({brewery: breweryId })
+			.then(breweryBeers =>{
+				const beers = breweryBeers
+				for(i in beers){
+					beers[i].date_tasted = moment(beers.date_tasted).format("MMM Do, YYYY")
+				}
+				res.render('brewery/showBrewery', { brewery, beers, username, loggedIn, userId })
+			})
+			.catch((error) => {
+				res.redirect(`/error?error=${error}`)
+			})
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
