@@ -20,7 +20,7 @@ router.use((req, res, next) => {
 	}
 })
 
-// index that shows only the user's beers
+// INDEX OF BEERS TASTED (shows only the user's beers)
 router.get('/tastedlist', (req, res) => {
     // destructure user info from req.session
     const { username, userId, loggedIn } = req.session
@@ -46,14 +46,14 @@ router.get('/tastedlist', (req, res) => {
 				})
 })
 
-// CREATE BEER TASTING FORM (create a beer tasting)
-router.get('/:breweryid/createBeerTasting', (req, res) => {
+// CREATE BEER TASTING - FORM (create a beer tasting)
+router.get('/:breweryid/create-beer-tasting', (req, res) => {
 	const { username, userId, loggedIn } = req.session
 	const breweryId = req.params.breweryid
 	Brewery.findById(breweryId)
 		.then(brewery => {
 			console.log('found brewery object to add to beer tasting', brewery)
-			res.render('beer/createBeerTasting', {brewery, username, loggedIn })
+			res.render('beer/createBeerTasting', {brewery,userId, username, loggedIn })
 		})
 		.catch(error=>{
 			console.log('error fetching brewering', error)
@@ -61,14 +61,13 @@ router.get('/:breweryid/createBeerTasting', (req, res) => {
 	})
 
 // create -> POST route that actually calls the db and makes a new document
-router.post('/', (req, res) => {
-	req.body.ready = req.body.ready === 'on' ? true : false
-
-	req.body.owner = req.session.userId
-	Example.create(req.body)
-		.then(example => {
-			console.log('this was returned from create', example)
-			res.redirect('/examples')
+router.post('/:breweryid/create-beer-tasting', (req, res) => {
+	const newBeer = req.body
+	console.log(newBeer)
+	Beer.create(newBeer)
+		.then(beer => {
+			console.log('this was returned from create beer', beer)
+			res.send(beer)
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
