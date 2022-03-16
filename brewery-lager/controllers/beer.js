@@ -33,10 +33,8 @@ router.get('/tastedlist', (req, res) => {
 				let beerId = beer.id
 				Beer.findById(beer.id)
 				.populate('brewery')
-				.exec(function (err, beer) {
-					if (err) return handleError(err)
+				.then(beer => {
 					beersWithBreweryPop.push(beer)
-					console.log(beer)
 				})
 			}
 			res.render('beer/tastedlist', { beersWithBreweryPop, username, loggedIn })
@@ -101,12 +99,13 @@ router.put('/:id', (req, res) => {
 		})
 })
 
-// show route
+// SHOW BEER DETAILS (show details about a particular beer)
 router.get('/:beerid', (req, res) => {
+	const {username, loggedIn, userId} = req.session
 	const beerId = req.params.beerid
 	Beer.findById(beerId)
+		.populate('brewery')
 		.then(beer => {
-            const {username, loggedIn, userId} = req.session
 			res.render('beer/showBeerDetails', { beer, username, loggedIn, userId })
 		})
 		.catch((error) => {
