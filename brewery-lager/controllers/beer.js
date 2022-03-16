@@ -21,7 +21,7 @@ router.use((req, res, next) => {
 })
 
 // INDEX OF BEERS TASTED (shows only the user's beers)
-router.get('/tastedlist', (req, res) => {
+router.get('/index', (req, res) => {
     // destructure user info from req.session
     const { username, userId, loggedIn } = req.session
 	const beersWithBreweryPop = []
@@ -37,7 +37,7 @@ router.get('/tastedlist', (req, res) => {
 					beersWithBreweryPop.push(beer)
 				})
 			}
-			res.render('beer/tastedlist', { beersWithBreweryPop, username, loggedIn })
+			res.render('beer/index', { beersWithBreweryPop, username, loggedIn })
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
@@ -45,13 +45,13 @@ router.get('/tastedlist', (req, res) => {
 })
 
 // CREATE BEER TASTING - FORM (renders the form needed to submit a new beer tasting)
-router.get('/:breweryid/create-beer-tasting', (req, res) => {
+router.get('/:breweryid/create', (req, res) => {
 	const { username, userId, loggedIn } = req.session
 	const breweryId = req.params.breweryid
 	Brewery.findById(breweryId)
 		.then(brewery => {
 			console.log('found brewery object to add to beer tasting', brewery)
-			res.render('beer/createBeerTasting', {brewery,userId, username, loggedIn })
+			res.render('beer/create', {brewery,userId, username, loggedIn })
 		})
 		.catch(error=>{
 			console.log('error fetching brewering', error)
@@ -59,7 +59,7 @@ router.get('/:breweryid/create-beer-tasting', (req, res) => {
 	})
 
 // CREATE BEER TASTING - ACTION (creates a beer tasting record)
-router.post('/:breweryid/create-beer-tasting', (req, res) => {
+router.post('/:breweryid/create', (req, res) => {
 	const newBeer = req.body
 	console.log(newBeer)
 	Beer.create(newBeer)
@@ -106,7 +106,7 @@ router.get('/:beerid', (req, res) => {
 	Beer.findById(beerId)
 		.populate('brewery')
 		.then(beer => {
-			res.render('beer/showBeerDetails', { beer, username, loggedIn, userId })
+			res.render('beer/showDetails', { beer, username, loggedIn, userId })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
