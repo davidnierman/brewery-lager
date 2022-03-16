@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "seedBeers": "node models/seedBeers.js",
-    "seedBreweries": "node models/seedBreweries.js"
+    "seedBeers": "node models/seed/seedBeers.js",
+    "seedBreweries": "node models/seed/seedBreweries.js"
   },
   "keywords": [],
   "author": "David Nierman",
@@ -22,6 +22,7 @@
     "liquid-express-views": "^1.0.8",
     "method-override": "^3.0.0",
     "mongoose": "^6.2.4",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.7"
   }
 }

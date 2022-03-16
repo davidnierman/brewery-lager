@@ -51,7 +51,7 @@ router.get('/tastedlist', (req, res) => {
 				.populate('brewery')
 				.exec(function (err, beer) {
 					if (err) return handleError(err)
-					beersWithBreweryPop.pusharray (beer)
+					beersWithBreweryPop.push(beer)
 					console.log(beer)
 				})
 			}

@@ -1,8 +1,8 @@
 ///////////////////////////////////////
 // Import Dependencies
 ///////////////////////////////////////
-const mongoose = require('./connection')
-const Beer = require('./beer')
+const mongoose = require('../connection')
+const Beer = require('../beer')
 
 ///////////////////////////////////////////
 // Seed Code
@@ -18,6 +18,7 @@ db.on('open', () => {
             type: 'IPA',
             tasting_notes: 'Floral & Fruity',
             date_tasted: 2021-05-11,
+            brewery:'6231204a6a071ff31ee0e7c6',
             owner: '62311fc03bbab49a5a97a4d9' // test user 'd'
         },
         {
@@ -25,6 +26,7 @@ db.on('open', () => {
             type: 'Hazy',
             tasting_notes: 'Fruity!',
             date_tasted: 2022-02-02,
+            brewery:'6231204a6a071ff31ee0e7c6',
             owner: '62311fc03bbab49a5a97a4d9' // test user 'd'
         },
         {
@@ -32,6 +34,7 @@ db.on('open', () => {
             type: 'Milk Stout',
             tasting_notes: 'Sweet and malty',
             date_tasted: 2019-04-04,
+            brewery:'6231204a6a071ff31ee0e7c6',
             owner: '62311fc03bbab49a5a97a4d9' // test user 'd'
         },
         {
@@ -39,6 +42,7 @@ db.on('open', () => {
             type: 'Sout',
             tasting_notes: 'Tart Rasberry',
             date_tasted: 2020-03-08,
+            brewery:'6231204a6a071ff31ee0e7c6',
             owner: '62311fc03bbab49a5a97a4d9' // test user 'd'
         }
     ]
@@ -63,3 +67,9 @@ db.on('open', () => {
             db.close()
         })  
 })
+
+
+
+
+
+// then we can send if we want to see that data

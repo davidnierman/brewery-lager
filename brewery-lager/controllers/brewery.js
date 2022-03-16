@@ -2,6 +2,7 @@
 const express = require('express')
 const Brewery = require('../models/brewery')
 const Beer = require('../models/beer')
+const fetchBreweryData = require('../utils/fetchApi')
 
 // Create router
 const router = express.Router()
