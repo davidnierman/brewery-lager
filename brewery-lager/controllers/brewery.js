@@ -121,12 +121,12 @@ router.get('/:id', (req, res) => {
 		})
 })
 
-// delete route
+// DELETE BREWERY (delete brewery and return home)
 router.delete('/:id', (req, res) => {
-	const exampleId = req.params.id
-	Example.findByIdAndRemove(exampleId)
-		.then(example => {
-			res.redirect('/examples')
+	const breweryId = req.params.id
+	Brewery.findByIdAndRemove(breweryId)
+		.then(() => {
+			res.redirect('/')
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)

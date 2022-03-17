@@ -1,22 +1,44 @@
 {% layout 'layout.liquid' %}
 {% block content %}
+<br>
 <div class="container-md">
-    <article>
-        <h2>
-            {{brewery.open_brewery_db_id}}
-        </h2>
+    <h2>{{brewery.open_brewery_db_id}} </h2>
+    <h2>
         {% if brewery.visited %}
             <h3>Visited: Yes</h3>
         {% else %}
             <h3>Visited: Not Yet</h3>
         {% endif %}
-            <form action="/brewery/{{brewery.id }}?_method=PUT" method="POST">
-                <input type="submit" value="Change Visited Status" class="btn btn-info">
-            <form action="/examples/{{ example.id }}?_method=DELETE" method="POST">
-                <input type="submit" value="Delete" class="btn btn-danger">
-            </form>
-        </div>
-    </article>
+    </h2>
+    <br>
+       <div class="btn-group btn-group-sm" role="group">
+    {% if brewery.visited %}
+        <a href="/brewery/visitedlist">
+            <button type="button" class="btn btn-light">Return to Breweries Visited</button>
+        </a>
+    {% else %}
+        <a href="/brewery/bucketlist">
+            <button type="button" class="btn btn-light">Return to Brewery Bucket List</button>
+        </a>
+    {% endif %}
+        <form action="/brewery/{{brewery.id }}?_method=PUT" method="POST">
+            <input type="submit" value="Change Visited Status" class="btn btn-info">
+        </form>
+        <form action="/brewery/{{ brewery.id }}?_method=DELETE" method="POST">
+            <input type="submit" value="Delete" class="btn btn-danger">
+        </form>
+</div>
+</div>
+<h1 style="text-align: center;"> Beers Tasted</h1>
+<div style=
+" 
+    display: flex;
+    justify-content: center;
+    margin: 1%;
+">
+    <a href="/beer/{{brewery.id}}/create">
+        <button type="button" class="btn btn-success">Add Beer to Tasted List</button>
+    </a>
 </div>
 <table class="table">
     <thead>
@@ -39,10 +61,4 @@
         {% endfor %}
     </tbody>
   </table>  
-
-<!-- I will need to pass the value of the brewery ID to this form -->
-<a href="/beer/{{brewery.id}}/create">
-    <h3> Add New Beer Tasted</h3>
-</a>
-
 {% endblock %}
