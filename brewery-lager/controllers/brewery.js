@@ -59,12 +59,20 @@ router.get('/search', (req, res) => {
 	res.render('brewery/search', { username, loggedIn })
 })
 
-// SEARCH RESULTS <-- THERE IS A BUG HERE
-router.post('/searchResults', async (req, res) => {
+// SEARCH RESULTS 
+router.post('/searchResults', (req, res) => {
 	const { username, userId, loggedIn } = req.session // IS THIS NEEDED ON ALL TO PASS THE SESSION INFO TO LAYOUT???????
 	const searchMethod = req.body.searchMethod
 	const input = req.body.input
-	//fetchBreweryData(searchMethod, input).then(data=>{console.log(data)})
+	Promise.resolve(fetchBreweryData(searchMethod, input))
+	.then(breweries=>{res.render('brewery/showQueryResults', {breweries})})
+})
+
+// ADD BREWERY TO LIST
+router.post('/addBreweryToList', (req, res) => {
+	const { username, userId, loggedIn } = req.session // IS THIS NEEDED ON ALL TO PASS THE SESSION INFO TO LAYOUT???????
+	const breweryAdditons = req.body
+	res.send(breweryAdditons)
 })
 
 // create -> POST route that actually calls the db and makes a new document
