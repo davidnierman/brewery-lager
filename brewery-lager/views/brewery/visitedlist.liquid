@@ -13,6 +13,8 @@
                 <p class="card-text">
                     Visited: {{ brewery.visited }}
                 </p>
+                <form action="/brewery/{{brewery.id }}?_method=PUT" method="POST">
+                    <input type="submit" value="Change Visited Status" class="btn btn-info">
                 <p class="card-text">
                     owner: {{ brewery.owner }}
                 </p>
