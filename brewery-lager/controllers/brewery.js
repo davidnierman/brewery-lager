@@ -64,9 +64,7 @@ router.post('/searchResults', async (req, res) => {
 	const { username, userId, loggedIn } = req.session // IS THIS NEEDED ON ALL TO PASS THE SESSION INFO TO LAYOUT???????
 	const searchMethod = req.body.searchMethod
 	const input = req.body.input
-	const searchResults = await fetchBreweryData(searchMethod, input)
-		console.log('Search Results', searchResults) // this is returning empty
-		res.send(searchResults)
+	//fetchBreweryData(searchMethod, input).then(data=>{console.log(data)})
 })
 
 // create -> POST route that actually calls the db and makes a new document
@@ -84,30 +82,18 @@ router.post('/', (req, res) => {
 		})
 })
 
-// edit route -> GET that takes us to the edit form view
-router.get('/:id/edit', (req, res) => {
-	// we need to get the id
-	const exampleId = req.params.id
-	Example.findById(exampleId)
-		.then(example => {
-			res.render('examples/edit', { example })
-		})
-		.catch((error) => {
-			res.redirect(`/error?error=${error}`)
-		})
-})
-
 // update route
 router.put('/:id', (req, res) => {
-	const exampleId = req.params.id
-	req.body.ready = req.body.ready === 'on' ? true : false
-
-	Example.findByIdAndUpdate(exampleId, req.body, { new: true })
-		.then(example => {
-			res.redirect(`/examples/${example.id}`)
-		})
-		.catch((error) => {
-			res.redirect(`/error?error=${error}`)
+	const breweryId = req.params.id
+	Brewery.findById(breweryId)
+		.then(brewery => {
+			Brewery.findByIdAndUpdate(breweryId, {visited: !brewery.visited })
+			.then(() => {
+				res.redirect(`/brewery/${brewery.id}`)
+			})
+			.catch((error) => {
+				res.redirect(`/error?error=${error}`)
+			})
 		})
 })
 
