@@ -12,30 +12,25 @@ BreweryDbQueryParams = ['by_city', 'by_name', 'by_state', 'by_postal', 'by_type'
 
 
 // create a function that will fetch data
-const fetchBreweryData = (searchMethod, input) => {
-    let response
+const fetchBreweryData = async (searchMethod, input) => {
     inputUrlEncoded = input.replaceAll(' ', '%20') // replace spaces with %20 to make it url friendly
     if (BreweryDbQueryParams.includes(searchMethod)) {
-        const url = `${apiUrl}?${searchMethod}=${input}`
-        console.log(url)
-        fetch(url)
-            .then(breweries => {
-                return breweries.json()
-            })
-                .then(json => {
-                    //console.log(json)
-                    return json
+        const url = `${apiUrl}?${searchMethod}=${inputUrlEncoded}`
+               return fetch(url)
+                .then(response => {
+                    return response.json()
                 })
+                    .then(json => {
+                        return json
+                    })
+                    .catch(error => {
+                        console.log('error fetching ', error)
+                    })
                 .catch(error => {
                     console.log('error fetching ', error)
                 })
-            .catch(error => {
-                console.log('error fetching ', error)
-            })
     } 
 }
 
 // export utility 
-module.exports = function(searchMethod, input) {
-    fetchBreweryData(searchMethod, input)
-}
+module.exports =  fetchBreweryData
