@@ -2,7 +2,7 @@
 const express = require('express')
 const Brewery = require('../models/brewery')
 const Beer = require('../models/beer')
-const fetchBreweryData = require('../utils/fetchApi')
+const fetchBreweries = require('../utils/fetchBreweries')
 
 
 // Moments helps convert dates into correct format
@@ -64,7 +64,7 @@ router.post('/searchResults', (req, res) => {
 	const { username, userId, loggedIn } = req.session 
 	const searchMethod = req.body.searchMethod
 	const input = req.body.input
-	Promise.resolve(fetchBreweryData(searchMethod, input))
+	Promise.resolve(fetchBreweries.bySearchMethod(searchMethod, input))
 	.then(breweries=>{
 		for (let i = 0; i < breweries.length; i++){
 			Brewery.countDocuments({open_brewery_db_id:breweries[i].id })
@@ -114,27 +114,33 @@ router.put('/:id', (req, res) => {
 
 // SHOW BREWERY AND RELATED BEERS (shows brewery info and table of corresponding beers)
 router.get('/:id', (req, res) => {
+	const {username, loggedIn, userId} = req.session
 	const breweryId = req.params.id
-	Brewery.findById(breweryId)
-		.then(returnedBrewery => {
-            const {username, loggedIn, userId} = req.session
-			const brewery = returnedBrewery
-			Beer.find({brewery: breweryId })
-			.then(breweryBeers =>{
-				const beers = breweryBeers
-				for(i in beers){
-					beers[i].date_tasted = moment(beers.date_tasted).format("MMM Do, YYYY")
-				}
-				res.render('brewery/showBrewery', { brewery, beers, username, loggedIn, userId })
-			})
-			.catch((error) => {
-				res.redirect(`/error?error=${error}`)
-			})
+			Brewery.findById(breweryId)
+			.then(response => {
+				const localBrewery = response
+				fetchBreweries.byId(localBrewery.open_brewery_db_id)// start a new promise chain here with fetch
+					.then(response => {
+						const apiBrewery = response
+						console.log('apiBrewery: ', apiBrewery)
+						Beer.find({brewery: breweryId })
+						.then(breweryBeers =>{
+							const beers = breweryBeers
+							for(i in beers){
+								beers[i].date_tasted = moment(beers.date_tasted).format("MMM Do, YYYY")
+							}
+							res.render('brewery/showBrewery', { localBrewery, apiBrewery, beers, username, loggedIn, userId })
+						})
+						.catch((error) => {
+						res.redirect(`/error?error=${error}`)
+						})
+					})
+					.catch((error) => {
+						res.redirect(`/error?error=${error}`)
+					})
+			}	)		
 		})
-		.catch((error) => {
-			res.redirect(`/error?error=${error}`)
-		})
-})
+
 
 // DELETE BREWERY (delete brewery and return home)
 router.delete('/:id', (req, res) => {
