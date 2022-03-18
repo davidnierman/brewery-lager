@@ -1,56 +1,57 @@
 {% layout 'layout.liquid' %}
-{% block content %}<table class="table">
-    <h1>Search Results</h1>
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Type</th>
-        <th scope="col">Street</th>
-        <th scope="col">City</th>
-        <th scope="col">State</th>
-        <th scope="col">Phone</th>
-        <th scope="col">Add to Visited List</th>
-        <th scope="col">Add to Bucket List</th>
-      </tr>
-    </thead>
-    <tbody>
-            {% for brewery in breweries%}
-                <tr>
-                    <td>
-                        <a href={{brewery.website_url}}>
-                            {{brewery.name}}
-                        </a>
-                    </td>
-                    <td> {{brewery.brewery_type}} </td>
-                    <td> {{brewery.street}} </td>
-                    <td> {{brewery.city}} </td>
-                    <td> {{brewery.state}} </td>
-                    <td>
-                        <a href="tel:{{brewery.phone}}">
-                            {{brewery.phone}}
-                        </a>
-                    </td>
+{% block content %}
+    <table class="table">
+        <h1>Search Results</h1>
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Street</th>
+            <th scope="col">City</th>
+            <th scope="col">State</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Add to Visited List</th>
+            <th scope="col">Add to Bucket List</th>
+        </tr>
+        </thead>
+        <tbody>
+                {% for brewery in breweries%}
+                    <tr>
                         <td>
-                            <form action="/brewery/addBreweryToList" method="POST">
-                                <input type="hidden" name="visited" value="false">
-                                <input type="hidden" name = "open_brewery_db_id" value={{brewery.id}}>
-                                <input type="hidden" name = "searchMethod" value={{searchMethod}}>
-                                <input type="hidden" name = "input" value={{input}}>
-                                <input type="submit" value="Add to BucketList" class="btn btn-success" >
-                            </form>
+                            <a href={{brewery.website_url}}>
+                                {{brewery.name}}
+                            </a>
                         </td>
+                        <td> {{brewery.brewery_type}} </td>
+                        <td> {{brewery.street}} </td>
+                        <td> {{brewery.city}} </td>
+                        <td> {{brewery.state}} </td>
                         <td>
-                            <form action="/brewery/addBreweryToList" method="POST">
-                                <input type="hidden" name="visited" value="true">
-                                <input type="hidden" name = "open_brewery_db_id" value={{brewery.id}}>
-                                <input type="hidden" name = "searchMethod" value={{searchMethod}}>
-                                <input type="hidden" name = "input" value={{input}}>
-                                <input type="submit" value="Add to visitList" class="btn btn-success" >
-                            </form>
+                            <a href="tel:{{brewery.phone}}">
+                                {{brewery.phone}}
+                            </a>
                         </td>
-    
-                </tr>
-            {% endfor %}
-    </tbody>
-  </table>  
+                            <td>
+                                <form action="/brewery/addBreweryToList" method="POST">
+                                    <input type="hidden" name="visited" value="false">
+                                    <input type="hidden" name = "open_brewery_db_id" value={{brewery.id}}>
+                                    <input type="hidden" name = "searchMethod" value={{searchMethod}}>
+                                    <input type="hidden" name = "input" value={{input}}>
+                                    <input type="submit" value="Add to BucketList" class="btn btn-success" >
+                                </form>
+                            </td>
+                            <td>
+                                <form action="/brewery/addBreweryToList" method="POST">
+                                    <input type="hidden" name="visited" value="true">
+                                    <input type="hidden" name = "open_brewery_db_id" value={{brewery.id}}>
+                                    <input type="hidden" name = "searchMethod" value={{searchMethod}}>
+                                    <input type="hidden" name = "input" value={{input}}>
+                                    <input type="submit" value="Add to visitList" class="btn btn-success" >
+                                </form>
+                            </td>
+        
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>  
 {% endblock %}
