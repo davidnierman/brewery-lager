@@ -12,7 +12,7 @@ const { Schema, model } = mongoose
 
 const brewerySchema = new Schema(
 	{
-		open_brewery_db_id: { type: Number, required: true },
+		open_brewery_db_id: { type: mongoose.Mixed, required: true },
 		visited: { type: Boolean, required: true },
 		owner: {
 			type: Schema.Types.ObjectID,
