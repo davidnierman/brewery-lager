@@ -59,38 +59,45 @@ router.get('/search', (req, res) => {
 	res.render('brewery/search', { username, loggedIn })
 })
 
-// SEARCH RESULTS 
+// SEARCH RESULTS (displays search results in a table with buttons to add brewery to vist or bucket list)
 router.post('/searchResults', (req, res) => {
-	const { username, userId, loggedIn } = req.session // IS THIS NEEDED ON ALL TO PASS THE SESSION INFO TO LAYOUT???????
+	const { username, userId, loggedIn } = req.session 
 	const searchMethod = req.body.searchMethod
 	const input = req.body.input
 	Promise.resolve(fetchBreweryData(searchMethod, input))
-	.then(breweries=>{res.render('brewery/showQueryResults', {breweries})})
+	.then(breweries=>{
+		for (let i = 0; i < breweries.length; i++){
+			Brewery.countDocuments({open_brewery_db_id:breweries[i].id })
+			.then(number=>{
+					if(number > 0){
+					breweries.splice(i,1)
+				}
+			})
+		} 
+		res.render('brewery/showQueryResults', {breweries, searchMethod, input, username, userId, loggedIn})})
 })
 
-// ADD BREWERY TO LIST
+// ADD BREWERY TO LIST && REMOVE FROM SEARCH RESULTS UPON REDIRECT
 router.post('/addBreweryToList', (req, res) => {
 	const { username, userId, loggedIn } = req.session // IS THIS NEEDED ON ALL TO PASS THE SESSION INFO TO LAYOUT???????
-	const breweryAdditons = req.body
-	res.send(breweryAdditons)
-})
-
-// create -> POST route that actually calls the db and makes a new document
-router.post('/', (req, res) => {
-	req.body.ready = req.body.ready === 'on' ? true : false
-
-	req.body.owner = req.session.userId
-	Example.create(req.body)
-		.then(example => {
-			console.log('this was returned from create', example)
-			res.redirect('/examples')
+	const {open_brewery_db_id, visited} = req.body
+	const newBrewery = {
+		open_brewery_db_id: open_brewery_db_id,
+		visited: visited,
+		owner: userId
+	}
+	console.log('newBrewery, ', newBrewery)
+	Brewery.create(newBrewery)
+		.then(createBreweryResponse=>{
+			console.log('create Brewery Response ', createBreweryResponse)
+			res.redirect(307, './searchResults')
 		})
 		.catch(error => {
-			res.redirect(`/error?error=${error}`)
+			console.log('error adding new brewery, ', error)
 		})
 })
 
-// update route
+// UPDATE BREWERY VISITED STATUS (only change visited status because all other brewery info is pulled from API)
 router.put('/:id', (req, res) => {
 	const breweryId = req.params.id
 	Brewery.findById(breweryId)
@@ -105,7 +112,7 @@ router.put('/:id', (req, res) => {
 		})
 })
 
-// show route
+// SHOW BREWERY AND RELATED BEERS (shows brewery info and table of corresponding beers)
 router.get('/:id', (req, res) => {
 	const breweryId = req.params.id
 	Brewery.findById(breweryId)
