@@ -67,7 +67,7 @@ router.post('/create', (req, res) => {
 	console.log(newBeer)
 	Beer.create(newBeer)
 		.then(beer => {
-			res.redirect(`./${beerId}`)
+			res.redirect(`./${beer.id}`)
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
@@ -80,23 +80,19 @@ router.get('/:id/edit', (req, res) => {
 	const beerId = req.params.id
 	Beer.findById(beerId)
 		.then(beer => {
-			// this converts mongoose date format to correct date format for form
-			const date_tasted = beer.date_tasted.toISOString().substring(0,10);
-			res.render('beer/edit', { beer, date_tasted, username, userId, loggedIn })
+			res.render('beer/edit', { beer, username, userId, loggedIn })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
 		})
 })
 
-// update route
+// UPDATE BEER DETAILS (updates details about beer)
 router.put('/:id', (req, res) => {
-	const exampleId = req.params.id
-	req.body.ready = req.body.ready === 'on' ? true : false
-
-	Example.findByIdAndUpdate(exampleId, req.body, { new: true })
-		.then(example => {
-			res.redirect(`/examples/${example.id}`)
+	const beerId = req.params.id
+	Beer.findByIdAndUpdate(beerId, req.body, { new: true })
+		.then(updatedBeer => {
+			res.redirect(`/beer/${updatedBeer.id}`)
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
