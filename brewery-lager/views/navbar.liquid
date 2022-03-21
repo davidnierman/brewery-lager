@@ -1,9 +1,9 @@
 {% block content %}
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
-        <a href="/" class="navbar-brand">Examplr</a>
+        <a href="/" class="navbar-brand">Beer Lager</a>
         {% if loggedIn %}
-        <a href="/examples/mine" class="nav-link text-light">Hello {{ username }} </a>
+        <div class="nav-link text-light">User: {{ username }} </div>
         {% endif %}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
