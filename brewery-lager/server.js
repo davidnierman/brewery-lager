@@ -28,7 +28,7 @@ app.use('/beer', BeerRouter)
 
 app.get('/', (req, res) => {
     const { username, userId, loggedIn } = req.session
-	res.render('index.liquid', { loggedIn, username, userId })
+	res.render('home.liquid', { loggedIn, username, userId })
 })
 
 app.get('/error', (req, res) => {
