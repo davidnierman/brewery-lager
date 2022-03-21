@@ -31,11 +31,30 @@ router.use((req, res, next) => {
 
 // INDEX/LIST BUCKETLIST (shows only the user's breweries) - DONE FOR NOW
 router.get('/bucketlist', (req, res) => {
-    // destructure user info from req.session
-    const { username, userId, loggedIn } = req.session
-    Brewery.find({ $and: [{owner: userId}, {visited:false}]})
+	const { username, userId, loggedIn } = req.session
+	const promiseList = []
+	Brewery.find({ $and: [{owner: userId}, {visited:false}]})
 		.then(breweries => {
-			res.render('brewery/bucketlist', {breweries, username, loggedIn })
+			for (i in breweries) {
+				const promise = Promise.resolve(fetchBreweries.byId(breweries[i].open_brewery_db_id))	
+				.then(breweryDetails => {
+						// create a DEEP copy
+						brewery = JSON.parse(JSON.stringify(breweries[i]))
+						brewery.info = breweryDetails
+						//console.log('BREWERY', brewery)
+						return brewery
+					})
+				console.log('PROMISE LIST: ', promise)
+				promiseList.push(promise)
+				console.log(promiseList)
+			}
+			console.log('PROMISE LIST: ', promiseList)
+			Promise.all(promiseList)
+				.then( values => {
+					breweries = values
+					console.log('BREWERIES GOING TO RENDER: ', values)
+					res.render('brewery/bucketlist', {breweries, username, loggedIn })
+			})
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
@@ -44,9 +63,29 @@ router.get('/bucketlist', (req, res) => {
 // INDEX/LIST VISITEDLIST (shows only the user's breweries) - DONE FOR NOW
 router.get('/visitedlist', (req, res) => {
     const { username, userId, loggedIn } = req.session
+	const promiseList = []
 	Brewery.find({ $and: [{owner: userId}, {visited:true}]})
 		.then(breweries => {
-			res.render('brewery/visitedlist', {breweries, username, loggedIn })
+			for (i in breweries) {
+				const promise = Promise.resolve(fetchBreweries.byId(breweries[i].open_brewery_db_id))	
+				.then(breweryDetails => {
+						// create a DEEP copy
+						brewery = JSON.parse(JSON.stringify(breweries[i]))
+						brewery.info = breweryDetails
+						//console.log('BREWERY', brewery)
+						return brewery
+					})
+				console.log('PROMISE LIST: ', promise)
+				promiseList.push(promise)
+				console.log(promiseList)
+			}
+			console.log('PROMISE LIST: ', promiseList)
+			Promise.all(promiseList)
+				.then( values => {
+					breweries = values
+					console.log('BREWERIES GOING TO RENDER: ', values)
+					res.render('brewery/visitedlist', {breweries, username, loggedIn })
+			})
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
