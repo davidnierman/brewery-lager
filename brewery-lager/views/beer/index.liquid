@@ -1,30 +1,30 @@
 {% layout 'layout.liquid'%}
 {% block content %}
-<div>
     <h2 class="display-6">Beers Tasted List</h2>
-    <div class="row">
-        {% for beer in beers %}
-        <div class="card" style="width: 18rem;">
-            <h5 class="card-header">{{ beer.name }}</h5>
-            <div class="card-body">
-                <p class="card-text">
-                    Type/Style: {{ beer.type }}
-                </p>
-                <p class="card-text">
-                    Tasting Notes: {{ beer.tasting_notes }}
-                </p>
-                <p class="card-text">
-                    Date Tasted: {{ beer.date_tasted}}
-                </p>
-                <p class="card-text">
-                    brewery: {{beer.brewery.name}}
-                </p>
-                <a href="/beer/{{ beer._id }}" class="btn btn-info">
-                    View Beer
-                </a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Tasting Notes</th>
+            <th scope="col">Date Tasted</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for beer in beers%}
+                <tr>
+                    <th scope="row">
+                        <a href="/beer/{{beer._id}}">
+                            <button type="button" class="btn btn-info">{{beer.name}}</button>
+                        </a>
+                    </th>
+                    <td> {{beer.name}} </td>
+                    <td> {{beer.type}} </td>
+                    <td> {{beer.tasting_notes}} </td>
+                    <td> {{beer.date_tasted}} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>  
+
 {% endblock %}
