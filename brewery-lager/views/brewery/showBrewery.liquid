@@ -2,7 +2,14 @@
 {% block content %}
 <br>
 <div class="container-fluid">
-    <h2>{{apiBrewery.name}} </h2>
+    <h2>
+        {{apiBrewery.name}}
+        <div class="btn-group btn-group-sm" role="group">
+            <form action="/brewery/{{ localBrewery.id }}?_method=DELETE" method="POST">
+                <input type="submit" value="Delete Brewery Record" class="btn btn-danger">
+            </form>
+          </div> 
+    </h2>
     <table class="table">
         <thead>
             <tr>
@@ -55,12 +62,6 @@
             </tr>
         </tbody>
     </table>
-    <br>
-       <div class="btn-group btn-group-sm" role="group">
-        <form action="/brewery/{{ localBrewery.id }}?_method=DELETE" method="POST">
-            <input type="submit" value="Delete Brewery Record" class="btn btn-danger">
-        </form>
-</div>
 </div>
 <h1 style="text-align: center;"> Beers Tasted</h1>
 <div style=
@@ -85,7 +86,11 @@
     <tbody>
         {% for beer in beers%}
             <tr>
-                <th scope="row">{{beer.name}}</th>
+                <th scope="row">
+                    <a href="/beer/{{beer._id}}">
+                        <button type="button" class="btn btn-info">{{beer.name}}</button>
+                    </a>
+                </th>
                 <td> {{beer.name}} </td>
                 <td> {{beer.type}} </td>
                 <td> {{beer.tasting_notes}} </td>
