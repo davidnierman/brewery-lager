@@ -2,6 +2,7 @@
 const express = require('express')
 const Brewery = require('../models/brewery')
 const Beer = require('../models/beer')
+const fetchBreweries = require('../utils/fetchBreweries')
 
 // Moments helps convert dates into correct format
 // (Mongoose iso date format is extensive and not always needed)
@@ -28,21 +29,29 @@ router.use((req, res, next) => {
 router.get('/index', (req, res) => {
     // destructure user info from req.session
     const { username, userId, loggedIn } = req.session
-	const beersWithBreweryPop = []
+	const promiseList = []
+	const beersWithInfo = []
 	Beer.find({ owner: userId })
-		.then(beers =>{
-			//console.log(beers)
-			for (i in beers){
-				let beer = beers[i]
-				let beerId = beer.id
-				Beer.findById(beer.id)
-				.populate('brewery')
-				.then(beer => {
-					beersWithBreweryPop.push(beer)
-				})
+		.populate('brewery')
+		.then (beers => {
+			for (i in beers) {
+				const promise = Promise.resolve(fetchBreweries.byId(beers[i].brewery.open_brewery_db_id))
+					.then(brewery => {
+						// create a DEEP copy
+						beer = JSON.parse(JSON.stringify(beers[i]))
+						beer.brewery = brewery
+						return beer
+					})
+				promiseList.push(promise)
 			}
-			res.render('beer/index', { beersWithBreweryPop, username, loggedIn })
-		})
+			Promise.all(promiseList)
+			.then( values => {
+				beers = values
+				console.log('beers: ', beers)
+				console.log()
+				res.render('beer/index', { beers , username, loggedIn })
+			})
+		})	
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
 				})

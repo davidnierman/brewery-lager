@@ -3,13 +3,10 @@
 <div>
     <h2 class="display-6">Beers Tasted List</h2>
     <div class="row">
-        {% for beer in beersWithBreweryPop %}
+        {% for beer in beers %}
         <div class="card" style="width: 18rem;">
-            <h5 class="card-header">Visited Breweries</h5>
+            <h5 class="card-header">{{ beer.name }}</h5>
             <div class="card-body">
-                <h5 class="card-title">
-                    Name: {{ beer.name }}
-                </h5>
                 <p class="card-text">
                     Type/Style: {{ beer.type }}
                 </p>
@@ -20,16 +17,10 @@
                     Date Tasted: {{ beer.date_tasted}}
                 </p>
                 <p class="card-text">
-                    brewery: {{beer.brewery.open_brewery_db_id }}
+                    brewery: {{beer.brewery.name}}
                 </p>
-                <p class="card-text">
-                    owner Id: {{ beer.owner }}
-                </p>
-                <!-- <p class="card-text">
-                    Amount: {{ example.amount }} -->
-                </p>
-                <a href="/beer/{{ beer.id }}" class="btn btn-info">
-                    View Beer: #{{ beer.id }}
+                <a href="/beer/{{ beer._id }}" class="btn btn-info">
+                    View Beer
                 </a>
             </div>
         </div>
