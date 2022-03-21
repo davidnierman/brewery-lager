@@ -115,8 +115,16 @@ router.get('/:beerid', (req, res) => {
 	Beer.findById(beerId)
 		.populate('brewery')
 		.then(beer => {
-			beer.date_tasted = moment(beer.date_tasted).format("MMM Do, YYYY")
-			res.render('beer/showDetails', { beer, username, loggedIn, userId })
+			console.log('BEER: ', beer)
+			fetchBreweries.byId(beer.brewery.open_brewery_db_id)
+					.then(brewery => {
+						beer.date_tasted = moment(beer.date_tasted).format("MMM Do, YYYY")
+						// create a DEEP copy
+						beer = JSON.parse(JSON.stringify(beer))
+						beer.breweryInfo = brewery
+						console.log('BEER: ', beer)
+						res.render('beer/showDetails', { beer, username, loggedIn, userId })
+					})
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
