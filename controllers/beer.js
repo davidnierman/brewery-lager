@@ -134,7 +134,7 @@ router.get('/:beerid', (req, res) => {
 // DELETE BEER TASTING (delete beer tasting and return to brewery)
 router.delete('/:id', (req, res) => {
 	const beerId = req.params.id
-	//console.log('removing beer with id: ', beerId )
+	console.log('removing beer with id: ', beerId )
 	Beer.findByIdAndRemove(beerId)
 		.then(removedBeer => {
 			console.log('brewery ID to reroute to: ', removedBeer.brewery)

@@ -52,7 +52,7 @@ router.get('/bucketlist', (req, res) => {
 			Promise.all(promiseList)
 				.then( values => {
 					breweries = values
-					console.log('BREWERIES GOING TO RENDER: ', values)
+					// console.log('BREWERIES GOING TO RENDER: ', values)
 					res.render('brewery/bucketlist', {breweries, username, loggedIn })
 			})
 		})
@@ -103,6 +103,7 @@ router.post('/searchResults', (req, res) => {
 	const { username, userId, loggedIn } = req.session 
 	const searchMethod = req.body.searchMethod
 	const input = req.body.input
+	console.log('INPUT: ', input)
 	Promise.resolve(fetchBreweries.bySearchMethod(searchMethod, input))
 	.then(breweries=>{
 		for (let i = 0; i < breweries.length; i++){
@@ -116,10 +117,11 @@ router.post('/searchResults', (req, res) => {
 		res.render('brewery/showQueryResults', {breweries, searchMethod, input, username, userId, loggedIn})})
 })
 
-// ADD BREWERY TO LIST && REMOVE FROM SEARCH RESULTS UPON REDIRECT
+// ADD BREWERY TO LIST && RETURN TO SEARCH RESULTS
 router.post('/addBreweryToList', (req, res) => {
 	const { username, userId, loggedIn } = req.session // IS THIS NEEDED ON ALL TO PASS THE SESSION INFO TO LAYOUT???????
 	const {open_brewery_db_id, visited} = req.body
+	console.log('REQ.BODY: ', req.body)
 	const newBrewery = {
 		open_brewery_db_id: open_brewery_db_id,
 		visited: visited,
@@ -129,6 +131,8 @@ router.post('/addBreweryToList', (req, res) => {
 	Brewery.create(newBrewery)
 		.then(createBreweryResponse=>{
 			console.log('create Brewery Response ', createBreweryResponse)
+			// HTTP 307 Temporary Redirect 
+			// The method and the body of the original request are reused to perform the redirected request.
 			res.redirect(307, './searchResults')
 		})
 		.catch(error => {
@@ -181,7 +185,7 @@ router.get('/:id', (req, res) => {
 		})
 
 
-// DELETE BREWERY (delete brewery and return home)
+// DELETE BREWERY (delete brewery and return home) // need to delete beers attached
 router.delete('/:id', (req, res) => {
 	const breweryId = req.params.id
 	Brewery.findByIdAndRemove(breweryId)
