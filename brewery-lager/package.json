@@ -1,0 +1,29 @@
+{
+  "name": "brewery-lager",
+  "version": "1.0.0",
+  "description": "An Express Based App that Leverages Mongoose and OpenBrewery API to Look Up and Log a User's Brewery Visits and Beers Tasted",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "seedBeers": "node models/seed/seedBeers.js",
+    "seedBreweries": "node models/seed/seedBreweries.js"
+  },
+  "keywords": [],
+  "author": "David Nierman",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^4.6.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "liquid-express-views": "^1.0.8",
+    "method-override": "^3.0.0",
+    "moment": "^2.29.1",
+    "mongoose": "^6.2.4",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.7"
+  }
+}
