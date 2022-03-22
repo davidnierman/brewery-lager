@@ -9,7 +9,7 @@
                 type="text" 
                 name="name" 
                 class="form-control"
-                value={{beer.name}}
+                value="{{beer.name}}"
             >
             <label class="form-label">Type/Style:</label>
             <input 
@@ -19,13 +19,7 @@
                 value="{{beer.type}}"
             >
             <label class="form-label">Tasting Notes:</label>
-            <textarea
-                type="text"
-                name="tasting_notes"
-                class="form-control"
-                value="{{beer.tasting_notes}}"
-            >
-            </textarea>
+            <textarea name="tasting_notes" class="form-control">{{beer.tasting_notes}}</textarea>
             <label class="form-label">Date Tasted:</label>
             <br>
             <input 
