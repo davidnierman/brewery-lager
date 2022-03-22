@@ -1,22 +1,22 @@
 {% block content %}
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav class="navbar navbar-expand-md navbar-dark" style="background-color: #dacc4e;">
     <div class="container-fluid">
-        <a href="/" class="navbar-brand">Beer Lager</a>
+        <a href="/" class="navbar-brand text-dark" >Beer Lager</a>
         {% if loggedIn %}
-        <div class="nav-link text-light">User: {{ username }} </div>
+        <div class="nav-link text-dark">User: {{ username }} </div>
         {% endif %}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             {% if loggedIn %}
-                <a href="/beer/index" class="nav-link text-light">Beers Tasted List</a>
-                <a href="/brewery/bucketlist" class="nav-link text-light">Brewery Bucket List</a>
-                <a href="/brewery/visitedlist" class="nav-link text-light">Breweries Visited</a>
-                <a href="/auth/logout" class="nav-link text-light">Log Out</a>
+                <a href="/beer/index" class="nav-link text-dark">Beers Tasted List</a>
+                <a href="/brewery/bucketlist" class="nav-link text-dark">Brewery Bucket List</a>
+                <a href="/brewery/visitedlist" class="nav-link text-dark">Breweries Visited</a>
+                <a href="/auth/logout" class="nav-link text-dark">Log Out</a>
             {% else %}
-                <a href="/auth/signup" class="nav-link text-light">Sign Up</a>
-                <a href="/auth/login" class="nav-link text-light">Sign In</a>
+                <a href="/auth/signup" class="nav-link text-dark">Sign Up</a>
+                <a href="/auth/login" class="nav-link text-dark">Sign In</a>
             {% endif %}
         </div>
     </div>

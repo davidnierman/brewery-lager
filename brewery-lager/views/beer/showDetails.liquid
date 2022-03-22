@@ -42,9 +42,10 @@
 
         <!-- EDIT BEER FORM -->
         <div class="btn-group">
-            <a href="/beer/{{beer.id }}/edit" class="btn btn-warning">Edit</a>
+            <a href="/beer/{{beer._id }}/edit" class="btn btn-warning">Edit</a>
             <br>
-            <form action="/beer/{{ beer.id }}?_method=DELETE" method="POST">
+        <!-- Delete BEER FORM -->
+            <form action="/beer/{{ beer._id }}?_method=DELETE" method="POST">
                 <input type="submit" value="Delete" class="btn btn-danger">
             </form>
         </div>
