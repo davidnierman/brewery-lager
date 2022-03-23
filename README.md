@@ -26,7 +26,6 @@ An Express Based App that Leverages Mongoose and OpenBrewery API to Look Up and 
 ## Front-End
  - Liquid
  - Bootsrap
- - Liquid
 
  &nbsp;
 
