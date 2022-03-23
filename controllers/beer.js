@@ -109,9 +109,9 @@ router.put('/:id', (req, res) => {
 })
 
 // SHOW BEER DETAILS (show details about a particular beer)
-router.get('/:beerid', (req, res) => {
+router.get('/:id', (req, res) => {
 	const {username, loggedIn, userId} = req.session
-	const beerId = req.params.beerid
+	const beerId = req.params.id
 	Beer.findById(beerId)
 		.populate('brewery')
 		.then(beer => {
